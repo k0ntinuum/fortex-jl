@@ -1,7 +1,7 @@
 using Random
 function key(n)
-    max_width = 31
-    num_discs = 27 
+    max_width = 13
+    num_discs = 9 
     k = []
     c = map( i -> i + 1, Random.randperm(max_width)[begin:num_discs])
     for i in 1:num_discs push!(k, rand(0:n-1,c[i])) end
@@ -11,8 +11,9 @@ end
 
 function str(v)
     #out_alph = "abcdefghijklmnopqrstuvwxyz" * string('\u2586')    
-    #out_alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" * string('\u25A0')
-    out_alph = "0|234567"
+    #out_alph = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"     out_alph = "0|23456789"
+    #out_alph = "O|@*" * string('\u25A0')
+    out_alph = "0" * string('\u2590') *"@"
     join(map(i -> out_alph[i+1:i+1],v ))
 end
 
@@ -24,7 +25,7 @@ gray(h) = rgb(h,h,h)
 
 
 function print_key(f)
-    print(white(),"f = \n")
+    #print(white(),"f = \n")
     for i in eachindex(f) 
         print(str(f[i]),"\n")
     end
@@ -44,8 +45,8 @@ function twist!(f,a,n)
     for i in eachindex(f) f[i][1] = mod(f[i][1] + a,n) end
 end
 
-function roll!(f)
-    for i in eachindex(f) f[i] = circshift(f[i],1) end
+function roll!(f, a)
+    for i in eachindex(f) f[i] = circshift(f[i],f[mod1(i-1,length(f))][1] + a + 1) end
 end
 
 
@@ -54,9 +55,8 @@ function encode(p,f,n)
     for i in eachindex(p)
         push!(c, mod( stack(f) + p[i], n))
         twist!(f,c[i],n)
-        roll!(f)  
+        roll!(f, p[i])
     end
-    #print_key(f)
     c
 end
 
@@ -65,10 +65,19 @@ function decode(c,f,n)
     for i in eachindex(c)
         push!(p, mod( c[i] - stack(f), n))
         twist!(f,c[i],n)
-        roll!(f)  
+        roll!(f, p[i])  
     end
     p
 end
+
+function spin!(f, k, n)
+    p = deepcopy(f[k])
+    for i in eachindex(p)
+        twist!(f, stack(f) + p[i], n)
+        roll!(f,p[i])  
+    end
+end
+
 
 function encrypt(p,q,n)
     l = length(q)
@@ -84,7 +93,7 @@ function decrypt(c,q,n)
     l = length(q)
     for i in 1:l
         f = deepcopy(q)
-        spin(f,l + 1 - i,n)
+        spin!(f,l + 1 - i,n)
         c = reverse(c)
         c = decode(c,f,n)
         
@@ -92,86 +101,30 @@ function decrypt(c,q,n)
     c
 end
 
-function spin!(f, k, n)
-    p = deepcopy(f[k])
-    for i in eachindex(p)
-        twist!(f, stack(f) + p[i], n)
-        roll!(f)  
-    end
-end
+
 
     
 
 function demo(n)
     f = key(n)
-    l = 64
+    l = 32
+    println()
     print_key(f)
     println()
-    for i in 1:2
+    for i in 1:3
         p = rand(0:n-1,l)
         print(red())
         print_vec(p)
-        #c = encode(p,f,n)
         c = encrypt(p,f,n)
         print(yellow())
         print_vec(c)
-        #d = decode(c,f,n)
         d = decrypt(c,f,n)
-        print(gray(100))
-        print_vec(p .!= c)
         println()
-#        println()
-#        d = decrypt(c,f,n)
+        d = decrypt(c,f,n)
         if p != d print("\nERROR\n") end
     end
 end
-#
-#function decode!(c,f,n)
-#    p = Int64[]
-#    for i in eachindex(c)
-#        push!(p, ( 2*n + c[i]  - f[1][1] - f[2][1])%n )
-#        swhich!(f)
-#        f[1][1] = (f[1][1] + p[i])%n
-#        f[2][1] = (f[2][1] + c[i])%n
-#    end
-#    p
-#end
-#
 
-#
-#function decrypt(c,q,n)
-#    l = length(q)
-#    for i in 1:l
-#        f = deepcopy(q)
-#        f[2] = circshift(f[2],i)
-#        f[1] = circshift(f[1],l + 1 - i)
-#        c = reverse(c)
-#        c = decode!(c,f,n)
-#    end
-#    c
-#end
-#
-#
-#function demo(n)
-#    l = 64
-#    f = key(n,l)
-#    print_key(f)
-#    println()
-#    for i in 1:10
-#        p = rand(0:n-1,l)
-#        print(red())
-#        print_vec(p)
-#        c = encrypt(p,f,n)
-#        print(yellow())
-#        print_vec(c)
-#        println()
-#        d = decrypt(c,f,n)
-#        if p != d print("\nERROR\n") end
-#    end
-#end
-#    
-#
-#
 
 
 

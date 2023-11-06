@@ -1,0 +1,70 @@
+
+
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage{ mathrsfs }
+\usepackage{graphicx}
+\usepackage{amssymb} %maths
+\usepackage{amsmath} %maths
+\usepackage[margin=0.2in]{geometry}
+\usepackage{graphicx}
+\usepackage{ulem}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{10pt}
+\usepackage{hyperref}
+\usepackage[autostyle]{csquotes}
+
+\usepackage{cancel}
+\renewcommand{\i}{\textit}
+\renewcommand{\b}{\textbf}
+\newcommand{\q}{\enquote}
+%\vskip1.0in
+
+
+
+
+
+\begin{document}
+
+{\setstretch{0.0}{
+
+
+\b{Fortex} is a \q{stack of wheels}. It is an intensification of \b{Jagged}, so it's better to understand that program first. 
+
+
+The essence of the program is in these three functions:
+
+\begin{verbatim}
+
+function stack(f)
+    s = 0
+    for i in eachindex(f) s += f[i][begin] end
+    s
+end
+
+function twist!(f,a,n)
+    for i in eachindex(f) f[i][1] = mod(f[i][1] + a,n) end
+end
+
+function roll!(f, a)
+    for i in eachindex(f) f[i] = circshift(f[i],f[mod1(i-1,length(f))][1] + a + 1) end
+end
+
+
+function encode(p,f,n)
+    c = Int64[]
+    for i in eachindex(p)
+        push!(c, mod( stack(f) + p[i], n))
+        twist!(f,c[i],n)
+        roll!(f, p[i])
+    end
+    c
+end
+
+\end{verbatim}
+
+
+The big change is that rolling/spinning speed varies between \q{rows} and is a function not only of the latest plaintext symbol but also of  the row above (in a wraparound fashion.) So \b{Fortex} should be more secure than \b{Jagged}. 
+
+\end{document}
