@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.3)  6 NOV 2023 07:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.3)  24 NOV 2023 23:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -447,21 +447,20 @@ Package rerunfilecheck Info: File `fortex-jl.out' has not changed.
 ### simple group (level 1) entered at line 30 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 10942 strings out of 476025
- 170954 string characters out of 5790018
- 1859388 words of memory out of 5000000
- 31270 multiletter control sequences out of 15000+600000
- 512869 words of font info for 35 fonts, out of 8000000 for 9000
+ 10939 strings out of 476025
+ 170924 string characters out of 5790018
+ 1852388 words of memory out of 5000000
+ 31268 multiletter control sequences out of 15000+600000
+ 512701 words of font info for 34 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,5n,76p,374b,530s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,5n,76p,374b,524s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmbx10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmr10.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm
-/cmtt10.pfb>
-Output written on fortex-jl.pdf (1 page, 44973 bytes).
+cm/cmr10.pfb>
+Output written on fortex-jl.pdf (1 page, 29524 bytes).
 PDF statistics:
- 28 PDF objects out of 1000 (max. 8388607)
- 18 compressed objects within 1 object stream
+ 23 PDF objects out of 1000 (max. 8388607)
+ 15 compressed objects within 1 object stream
  2 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
